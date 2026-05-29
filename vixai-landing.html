@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VixAI — Create. Test. Launch. Repeat.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --white: #ffffff;
+    --black: #0a0a0a;
+    --red: #E8202A;
+    --yellow: #F5C800;
+    --green: #22C55E;
+    --gray: #f4f4f4;
+    --gray2: #e8e8e8;
+    --muted: #6b7280;
+    --text: #1a1a1a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--gray2);
+    padding: 0 5%;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .logo-mark svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .logo-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--black);
+    letter-spacing: -0.5px;
+  }
+
+  .logo-name span { color: var(--red); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .btn-outline {
+    padding: 8px 18px;
+    border: 1.5px solid var(--gray2);
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+    background: transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-outline:hover { border-color: var(--black); }
+
+  .btn-primary {
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: white;
+    background: var(--red);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-primary:hover { background: #c8181f; }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    padding: 100px 5% 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.12;
+  }
+
+  .blob-red {
+    width: 500px; height: 500px;
+    background: var(--red);
+    top: -100px; right: -100px;
+    animation: float1 8s ease-in-out infinite;
+  }
+
+  .blob-yellow {
+    width: 350px; height: 350px;
+    background: var(--yellow);
+    bottom: 0; left: -50px;
+    animation: float2 10s ease-in-out infinite;
+  }
+
+  .blob-green {
+    width: 300px; height: 300px;
+    background: var(--green);
+    top: 40%; left: 40%;
+    animation: float3 12s ease-in-out infinite;
+  }
+
+  @keyframes float1 {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(-30px, 30px) scale(1.05); }
+  }
+  @keyframes float2 {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(20px, -20px) scale(1.08); }
+  }
+  @keyframes float3 {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(-15px, 15px) scale(0.95); }
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 800px; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: 1.5px solid var(--gray2);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: 32px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .badge-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.3); }
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -2px;
+    color: var(--black);
+    margin-bottom: 12px;
+  }
+
+  .hero-rotate-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .hero-for {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -2px;
+    color: var(--black);
+  }
+
+  .rotating-word {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -2px;
+    display: inline-block;
+    min-width: 280px;
+    text-align: left;
+    position: relative;
+    height: 1.15em;
+    overflow: hidden;
+  }
+
+  .word-slide {
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    white-space: nowrap;
+  }
+
+  .word-slide.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .word-slide.exit {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+
+  .color-red { color: var(--red); }
+  .color-yellow { color: #d4ac00; }
+  .color-green { color: var(--green); }
+
+  .hero p {
+    font-size: 1.1rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 560px;
+    margin: 0 auto 40px;
+    font-weight: 400;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .btn-hero {
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background: var(--red);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+    box-shadow: 0 4px 20px rgba(232,32,42,0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-hero:hover {
+    background: #c8181f;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(232,32,42,0.4);
+  }
+
+  .btn-hero-outline {
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+    background: transparent;
+    border: 1.5px solid var(--gray2);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+  }
+
+  .btn-hero-outline:hover {
+    border-color: var(--black);
+    transform: translateY(-2px);
+  }
+
+  .hero-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 64px;
+    flex-wrap: wrap;
+  }
+
+  .stat-item { text-align: center; }
+
+  .stat-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--black);
+    letter-spacing: -1px;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  .stat-div {
+    width: 1px;
+    height: 36px;
+    background: var(--gray2);
+  }
+
+  /* ─── LOGOS ─── */
+  .logos-section {
+    padding: 40px 5%;
+    border-top: 1px solid var(--gray2);
+    border-bottom: 1px solid var(--gray2);
+    background: var(--gray);
+    text-align: center;
+  }
+
+  .logos-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .logos-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+    opacity: 0.5;
+  }
+
+  .platform-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--black);
+  }
+
+  .platform-badge svg { width: 20px; height: 20px; }
+
+  /* ─── HOW IT WORKS ─── */
+  .section {
+    padding: 100px 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gray);
+    border: 1px solid var(--gray2);
+    border-radius: 100px;
+    padding: 5px 14px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.15;
+    color: var(--black);
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 60px;
+  }
+
+  /* Steps */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2px;
+    background: var(--gray2);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .step-card {
+    background: white;
+    padding: 36px 32px;
+    position: relative;
+  }
+
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--gray2);
+    line-height: 1;
+    margin-bottom: 16px;
+    letter-spacing: -2px;
+  }
+
+  .step-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    font-size: 1.3rem;
+  }
+
+  .step-icon.red { background: rgba(232,32,42,0.1); }
+  .step-icon.yellow { background: rgba(245,200,0,0.15); }
+  .step-icon.green { background: rgba(34,197,94,0.1); }
+  .step-icon.blue { background: rgba(59,130,246,0.1); }
+
+  .step-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 8px;
+  }
+
+  .step-card p {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ─── FEATURES ─── */
+  .features-section {
+    background: var(--black);
+    padding: 100px 5%;
+  }
+
+  .features-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .features-section .section-tag {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.5);
+  }
+
+  .features-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.15;
+    color: white;
+    margin-bottom: 16px;
+  }
+
+  .features-section .section-sub {
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 60px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .feature-card {
+    background: var(--black);
+    padding: 36px 32px;
+    transition: background 0.25s;
+    cursor: default;
+  }
+
+  .feature-card:hover { background: #141414; }
+
+  .feature-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
+
+  .fi-red { background: rgba(232,32,42,0.15); }
+  .fi-yellow { background: rgba(245,200,0,0.12); }
+  .fi-green { background: rgba(34,197,94,0.12); }
+
+  .feature-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  .feature-card p {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.65;
+  }
+
+  .feature-tag {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .tag-red { background: rgba(232,32,42,0.15); color: #ff6b70; }
+  .tag-yellow { background: rgba(245,200,0,0.12); color: #f5c800; }
+  .tag-green { background: rgba(34,197,94,0.12); color: #4ade80; }
+
+  /* ─── DASHBOARD PREVIEW ─── */
+  .dashboard-section {
+    padding: 100px 5%;
+    background: var(--gray);
+  }
+
+  .dashboard-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .dashboard-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 48px;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .dashboard-preview {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.1);
+    border: 1px solid var(--gray2);
+  }
+
+  .dp-topbar {
+    background: #f9f9f9;
+    border-bottom: 1px solid var(--gray2);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .dp-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+  }
+
+  .dp-dot.r { background: #ff5f57; }
+  .dp-dot.y { background: #febc2e; }
+  .dp-dot.g { background: #28c840; }
+
+  .dp-body {
+    display: flex;
+    min-height: 420px;
+  }
+
+  .dp-sidebar {
+    width: 200px;
+    background: var(--black);
+    padding: 20px 0;
+    flex-shrink: 0;
+  }
+
+  .dp-sidebar-logo {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 16px;
+  }
+
+  .dp-sidebar-logo span {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: white;
+  }
+
+  .dp-sidebar-logo span em { color: var(--red); font-style: normal; }
+
+  .dp-nav-item {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.4);
+    cursor: pointer;
+    border-radius: 0;
+    transition: all 0.15s;
+  }
+
+  .dp-nav-item.active {
+    background: rgba(255,255,255,0.06);
+    color: white;
+  }
+
+  .dp-nav-item:hover { color: rgba(255,255,255,0.7); }
+
+  .dp-nav-icon { font-size: 0.95rem; }
+
+  .dp-main {
+    flex: 1;
+    padding: 24px;
+    overflow: hidden;
+  }
+
+  .dp-page-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--black);
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+
+  .dp-stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .dp-stat {
+    background: var(--gray);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+
+  .dp-stat-label {
+    font-size: 0.7rem;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .dp-stat-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--black);
+    letter-spacing: -0.5px;
+  }
+
+  .dp-stat-val.red { color: var(--red); }
+  .dp-stat-val.green { color: var(--green); }
+  .dp-stat-val.yellow { color: #d4ac00; }
+
+  .dp-videos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .dp-video-card {
+    background: var(--gray);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .dp-video-thumb {
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    position: relative;
+  }
+
+  .dp-video-thumb.v1 { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
+  .dp-video-thumb.v2 { background: linear-gradient(135deg, #a8edea, #fed6e3); }
+  .dp-video-thumb.v3 { background: linear-gradient(135deg, #d299c2, #fef9d7); }
+
+  .dp-video-status {
+    position: absolute;
+    top: 8px; right: 8px;
+    padding: 2px 7px;
+    border-radius: 100px;
+    font-size: 0.6rem;
+    font-weight: 600;
+  }
+
+  .status-done { background: rgba(34,197,94,0.2); color: #16a34a; }
+  .status-proc { background: rgba(245,200,0,0.2); color: #a16207; }
+
+  .dp-video-info {
+    padding: 10px 12px;
+  }
+
+  .dp-video-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+
+  .dp-video-meta {
+    font-size: 0.65rem;
+    color: var(--muted);
+  }
+
+  /* ─── TARGETS ─── */
+  .targets-section {
+    padding: 100px 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .targets-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .target-card {
+    border: 1.5px solid var(--gray2);
+    border-radius: 16px;
+    padding: 32px 28px;
+    transition: all 0.25s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .target-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .target-card.tc-red::before { background: var(--red); }
+  .target-card.tc-yellow::before { background: var(--yellow); }
+  .target-card.tc-green::before { background: var(--green); }
+
+  .target-card:hover {
+    border-color: transparent;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+    transform: translateY(-4px);
+  }
+
+  .target-emoji { font-size: 2rem; margin-bottom: 16px; display: block; }
+
+  .target-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--black);
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+  }
+
+  .target-card p {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .target-list {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .target-list li {
+    font-size: 0.8rem;
+    color: var(--text);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+  }
+
+  .check-red { color: var(--red); }
+  .check-yellow { color: #d4ac00; }
+  .check-green { color: var(--green); }
+
+  /* ─── CTA ─── */
+  .cta-section {
+    padding: 80px 5%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: white;
+  }
+
+  .cta-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-box {
+    background: var(--black);
+    border-radius: 24px;
+    padding: 64px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-box::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: var(--red);
+    opacity: 0.15;
+    filter: blur(40px);
+  }
+
+  .cta-box::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 150px; height: 150px;
+    border-radius: 50%;
+    background: var(--yellow);
+    opacity: 0.12;
+    filter: blur(30px);
+  }
+
+  .cta-box h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 800;
+    color: white;
+    letter-spacing: -1.5px;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .cta-box p {
+    color: rgba(255,255,255,0.5);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 36px;
+  }
+
+  .cta-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .btn-cta {
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--black);
+    background: white;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,255,255,0.2); }
+
+  .btn-cta-ghost {
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+  }
+
+  .btn-cta-ghost:hover { border-color: rgba(255,255,255,0.4); color: white; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--black);
+    color: rgba(255,255,255,0.4);
+    padding: 48px 5% 32px;
+  }
+
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 32px;
+  }
+
+  .footer-brand { max-width: 260px; }
+
+  .footer-logo-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: white;
+    margin-bottom: 10px;
+  }
+
+  .footer-logo-name span { color: var(--red); }
+
+  .footer-brand p {
+    font-size: 0.85rem;
+    line-height: 1.65;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 60px;
+    flex-wrap: wrap;
+  }
+
+  .footer-col h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .footer-col a {
+    display: block;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.35);
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: color 0.2s;
+  }
+
+  .footer-col a:hover { color: rgba(255,255,255,0.7); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-bottom p { font-size: 0.8rem; }
+
+  .footer-ecosystem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+  }
+
+  .ecosystem-badge {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    padding: 4px 12px;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.75rem;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .features-grid { grid-template-columns: 1fr; }
+    .targets-grid { grid-template-columns: 1fr; }
+    .dp-stats-row { grid-template-columns: repeat(2, 1fr); }
+    .dp-videos-grid { grid-template-columns: repeat(2, 1fr); }
+    .dp-sidebar { display: none; }
+    .hero-rotate-line { flex-direction: column; gap: 4px; }
+    .rotating-word { min-width: 200px; }
+    .footer-links { gap: 32px; }
+    .cta-box { padding: 40px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M4 20L12 4L20 20" stroke="#E8202A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M7.5 14H16.5" stroke="#F5C800" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="12" cy="20" r="1.5" fill="#22C55E"/>
+      </svg>
+    </div>
+    <span class="logo-name">Vix<span>AI</span></span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#targets">Who it's for</a></li>
+    <li><a href="https://reypetch-ai.com">Pricing ↗</a></li>
+  </ul>
+
+  <div class="nav-cta">
+    <a href="#" class="btn-outline">Log in</a>
+    <a href="#" class="btn-primary">Start free →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-blob blob-red"></div>
+    <div class="hero-blob blob-yellow"></div>
+    <div class="hero-blob blob-green"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Built for performance marketers. Powered by AI.
+    </div>
+
+    <h1>Create high-converting<br/>UGC video ads</h1>
+
+    <div class="hero-rotate-line">
+      <span class="hero-for">for</span>
+      <div class="rotating-word" id="rotator">
+        <span class="word-slide active color-red">Agencies</span>
+        <span class="word-slide color-yellow">Affiliates</span>
+        <span class="word-slide color-green">Ecommerce</span>
+        <span class="word-slide color-red">Media Buyers</span>
+        <span class="word-slide color-yellow">Ad Creators</span>
+        <span class="word-slide color-green">SaaS Teams</span>
+      </div>
+    </div>
+
+    <p>Generate UGC video ads at scale in minutes. Test unlimited variations without rebooking talent. Launch winners to TikTok, Reels, and Meta — all from one AI-powered platform.</p>
+
+    <div class="hero-actions">
+      <a href="#" class="btn-hero">Start creating free →</a>
+      <a href="#how" class="btn-hero-outline">See how it works</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">10x</div>
+        <div class="stat-label">Faster than traditional UGC</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-item">
+        <div class="stat-number">$0.30</div>
+        <div class="stat-label">Per video generated</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-item">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Platforms. One workflow.</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-item">
+        <div class="stat-number">∞</div>
+        <div class="stat-label">Ad variations, zero reshoots</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<div class="logos-section">
+  <p class="logos-label">Launch directly to your favorite platforms</p>
+  <div class="logos-row">
+    <div class="platform-badge">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.27 8.27 0 004.84 1.56V6.82a4.85 4.85 0 01-1.07-.13z"/></svg>
+      TikTok
+    </div>
+    <div class="platform-badge">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      Instagram Reels
+    </div>
+    <div class="platform-badge">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      Meta Ads
+    </div>
+    <div class="platform-badge">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      YouTube Shorts
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div id="how">
+  <div class="section">
+    <div class="fade-up">
+      <div class="section-tag">⚡ How it works</div>
+      <h2>From idea to live ad<br/>in under 5 minutes</h2>
+      <p class="section-sub">No cameras. No actors. No waiting. Just AI that works as fast as your best ideas.</p>
+    </div>
+
+    <div class="steps-grid fade-up">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-icon red">✍️</div>
+        <h3>Describe your product</h3>
+        <p>Tell VixAI what you're selling, your target audience, and your goal. Our AI handles the rest.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-icon yellow">🤖</div>
+        <h3>AI generates scripts</h3>
+        <p>Claude AI writes high-converting UGC scripts with proven hooks, body copy, and CTAs instantly.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-icon green">🎬</div>
+        <h3>Pick avatar & voice</h3>
+        <p>Choose from realistic AI avatars and natural ElevenLabs voices. Customize tone and style.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-icon blue">🚀</div>
+        <h3>Launch & analyze</h3>
+        <p>Publish directly to TikTok, Meta & YouTube. Track performance. Scale what converts.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="features-inner">
+    <div class="fade-up">
+      <div class="section-tag">✦ Features</div>
+      <h2>Everything you need<br/>to dominate UGC ads</h2>
+      <p class="section-sub">Nine powerful tools, one seamless workflow. Built for speed, scale, and results.</p>
+    </div>
+
+    <div class="features-grid fade-up">
+      <div class="feature-card">
+        <div class="feature-icon fi-red">✍️</div>
+        <h3>AI Script Generator</h3>
+        <p>Claude AI crafts scroll-stopping UGC scripts tailored to your niche, product, and platform.</p>
+        <span class="feature-tag tag-red">Claude API</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-yellow">🎭</div>
+        <h3>AI Avatar Studio</h3>
+        <p>Realistic talking-head avatars via D-ID. Choose from dozens of diverse creators. No filming needed.</p>
+        <span class="feature-tag tag-yellow">D-ID API</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-green">🎙️</div>
+        <h3>Voice Generation</h3>
+        <p>Natural, expressive voices in 29 languages. Clone your brand voice or pick from premium presets.</p>
+        <span class="feature-tag tag-green">ElevenLabs</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-red">🔀</div>
+        <h3>Video Variations</h3>
+        <p>Generate 10+ ad variations from one script. Test different hooks, CTAs, and avatars simultaneously.</p>
+        <span class="feature-tag tag-red">A/B Ready</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-yellow">📊</div>
+        <h3>Analytics Dashboard</h3>
+        <p>Track views, CTR, ROAS, and conversion data per video. Know exactly what's working.</p>
+        <span class="feature-tag tag-yellow">Real-time</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-green">🚀</div>
+        <h3>Direct Publishing</h3>
+        <p>Push videos live to TikTok, Meta Ads, and YouTube Shorts in one click. No downloading required.</p>
+        <span class="feature-tag tag-green">3 Platforms</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-red">📂</div>
+        <h3>Project Manager</h3>
+        <p>Organize campaigns by product, client, or niche. Keep all your UGC assets in one place.</p>
+        <span class="feature-tag tag-red">Individual</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-yellow">🎣</div>
+        <h3>Hook Library</h3>
+        <p>300+ proven winning hooks organized by niche and emotion. Plug and play into any script.</p>
+        <span class="feature-tag tag-yellow">Curated</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-green">📈</div>
+        <h3>Trend Scanner</h3>
+        <p>Discover trending sounds, hooks, and formats on TikTok before your competitors. Stay ahead.</p>
+        <span class="feature-tag tag-green">Live Data</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD PREVIEW -->
+<section class="dashboard-section">
+  <div class="dashboard-inner">
+    <div class="dashboard-header fade-up">
+      <div>
+        <div class="section-tag">🖥️ Dashboard</div>
+        <h2 style="font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:800;letter-spacing:-1.5px;color:var(--black);">Your UGC command<br/>center</h2>
+      </div>
+      <p style="color:var(--muted);font-size:0.95rem;max-width:300px;line-height:1.7;">Everything in one clean dashboard. No switching tabs. No confusion.</p>
+    </div>
+
+    <div class="dashboard-preview fade-up">
+      <div class="dp-topbar">
+        <div class="dp-dot r"></div>
+        <div class="dp-dot y"></div>
+        <div class="dp-dot g"></div>
+        <span style="margin-left:12px;font-size:0.75rem;color:var(--muted);">app.vixai.com/dashboard</span>
+      </div>
+      <div class="dp-body">
+        <div class="dp-sidebar">
+          <div class="dp-sidebar-logo">
+            <span>Vix<em>AI</em></span>
+          </div>
+          <div class="dp-nav-item active"><span class="dp-nav-icon">⚡</span> Dashboard</div>
+          <div class="dp-nav-item"><span class="dp-nav-icon">✍️</span> Scripts</div>
+          <div class="dp-nav-item"><span class="dp-nav-icon">🎭</span> Avatars</div>
+          <div class="dp-nav-item"><span class="dp-nav-icon">🎬</span> Videos</div>
+          <div class="dp-nav-item"><span class="dp-nav-icon">📊</span> Analytics</div>
+          <div class="dp-nav-item"><span class="dp-nav-icon">🚀</span> Publish</div>
+          <div class="dp-nav-item"><span class="dp-nav-icon">🎣</span> Hook Library</div>
+          <div class="dp-nav-item"><span class="dp-nav-icon">📈</span> Trends</div>
+        </div>
+        <div class="dp-main">
+          <div class="dp-page-title">Good morning, Creator 👋</div>
+          <div class="dp-stats-row">
+            <div class="dp-stat">
+              <div class="dp-stat-label">Videos Created</div>
+              <div class="dp-stat-val red">24</div>
+            </div>
+            <div class="dp-stat">
+              <div class="dp-stat-label">Total Views</div>
+              <div class="dp-stat-val">128K</div>
+            </div>
+            <div class="dp-stat">
+              <div class="dp-stat-label">Avg. CTR</div>
+              <div class="dp-stat-val green">4.8%</div>
+            </div>
+            <div class="dp-stat">
+              <div class="dp-stat-label">Credits Left</div>
+              <div class="dp-stat-val yellow">340</div>
+            </div>
+          </div>
+          <div style="font-size:0.75rem;font-weight:600;color:var(--muted);margin-bottom:12px;">Recent Videos</div>
+          <div class="dp-videos-grid">
+            <div class="dp-video-card">
+              <div class="dp-video-thumb v1">
+                🎬
+                <span class="dp-video-status status-done">✓ Done</span>
+              </div>
+              <div class="dp-video-info">
+                <div class="dp-video-title">Skincare Hook v3</div>
+                <div class="dp-video-meta">TikTok • 24K views</div>
+              </div>
+            </div>
+            <div class="dp-video-card">
+              <div class="dp-video-thumb v2">
+                🎬
+                <span class="dp-video-status status-proc">⏳ Processing</span>
+              </div>
+              <div class="dp-video-info">
+                <div class="dp-video-title">App Promo v1</div>
+                <div class="dp-video-meta">Meta • Generating...</div>
+              </div>
+            </div>
+            <div class="dp-video-card">
+              <div class="dp-video-thumb v3">
+                🎬
+                <span class="dp-video-status status-done">✓ Done</span>
+              </div>
+              <div class="dp-video-info">
+                <div class="dp-video-title">Supplement Ad v2</div>
+                <div class="dp-video-meta">Reels • 8.2K views</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section id="targets">
+  <div class="targets-section">
+    <div class="fade-up" style="margin-bottom:48px;">
+      <div class="section-tag">👥 Who it's for</div>
+      <h2 style="font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-1.5px;color:var(--black);">Built for every<br/>performance marketer</h2>
+    </div>
+
+    <div class="targets-grid fade-up">
+      <div class="target-card tc-red">
+        <span class="target-emoji">🏢</span>
+        <h3>Agencies & Media Buyers</h3>
+        <p>Run multiple client campaigns without scaling headcount. Generate, test, and report at speed.</p>
+        <ul class="target-list">
+          <li><span class="check-red">✓</span> Bulk video generation</li>
+          <li><span class="check-red">✓</span> Multi-campaign management</li>
+          <li><span class="check-red">✓</span> Performance analytics per client</li>
+        </ul>
+      </div>
+      <div class="target-card tc-yellow">
+        <span class="target-emoji">🛒</span>
+        <h3>Ecommerce & DTC Brands</h3>
+        <p>Stop paying $500+ for UGC creators. Generate product videos that convert at a fraction of the cost.</p>
+        <ul class="target-list">
+          <li><span class="check-yellow">✓</span> Product-focused scripts</li>
+          <li><span class="check-yellow">✓</span> Hook testing at scale</li>
+          <li><span class="check-yellow">✓</span> Direct Meta/TikTok launch</li>
+        </ul>
+      </div>
+      <div class="target-card tc-green">
+        <span class="target-emoji">🤝</span>
+        <h3>Affiliates & Ad Creators</h3>
+        <p>Create winning creatives for any offer in minutes. Test fast, find winners, scale profits.</p>
+        <ul class="target-list">
+          <li><span class="check-green">✓</span> Offer-optimized scripts</li>
+          <li><span class="check-green">✓</span> A/B variation generator</li>
+          <li><span class="check-green">✓</span> Trend-based hook library</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner fade-up">
+    <div class="cta-box">
+      <h2>Ready to create UGC<br/>that actually converts?</h2>
+      <p>Join thousands of marketers using VixAI to generate, test, and launch winning video ads — faster than ever before.</p>
+      <div class="cta-actions">
+        <a href="#" class="btn-cta">Start creating free →</a>
+        <a href="https://reypetch-ai.com" class="btn-cta-ghost">View pricing ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo-name">Vix<span>AI</span></div>
+      <p>Create. Test. Launch. Repeat.<br/>AI-powered UGC video ads for performance marketers.</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#">Features</a>
+        <a href="#">How it works</a>
+        <a href="#">Dashboard</a>
+        <a href="https://reypetch-ai.com">Pricing</a>
+      </div>
+      <div class="footer-col">
+        <h4>Use Cases</h4>
+        <a href="#">Agencies</a>
+        <a href="#">Ecommerce</a>
+        <a href="#">Affiliates</a>
+        <a href="#">SaaS</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Blog</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 VixAI. All rights reserved.</p>
+    <div class="footer-ecosystem">
+      Part of <span class="ecosystem-badge">reypetch-ai.com ecosystem</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ─── ROTATING WORDS ───
+  const words = document.querySelectorAll('.word-slide');
+  let current = 0;
+
+  function rotate() {
+    words[current].classList.remove('active');
+    words[current].classList.add('exit');
+    setTimeout(() => { words[current].classList.remove('exit'); }, 500);
+    current = (current + 1) % words.length;
+    words[current].classList.add('active');
+  }
+
+  setInterval(rotate, 2200);
+
+  // ─── SCROLL ANIMATIONS ───
+  const fadeEls = document.querySelectorAll('.fade-up');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  fadeEls.forEach(el => observer.observe(el));
+
+  // ─── NAV SCROLL EFFECT ───
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 20) {
+      nav.style.boxShadow = '0 2px 20px rgba(0,0,0,0.08)';
+    } else {
+      nav.style.boxShadow = 'none';
+    }
+  });
+</script>
+</body>
+</html>
